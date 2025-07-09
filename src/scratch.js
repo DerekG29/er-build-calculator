@@ -105,6 +105,9 @@ function getTableValues(table) {
     }
   }
 
+  // get guardBoost
+  // values.guardBoost = parseInt(rowA.children[].textContent);
+
   // getting split damage numbers and type
   key = {
     "cyan": "magic",
@@ -131,11 +134,22 @@ function getTableValues(table) {
   }
 
   // upgrade scaling
+  key = rowC.children.length < 9
+    ? ["AR", "str", "dex", "int", "fai", "arc", "guard"]
+    : ["AR", "str", "dex", "int", "fai", "arc", "passive", "guard"];
 
-
+  for (let i = 1; i < rowC.children.length; i++) {
+    let data = rowC.children[i].textContent;
+    if (data.length > 2) {
+      data = data.slice(1, -2);
+      values.upgrades[key[i - 1]] = (parseFloat(data) / 100).toFixed(4);
+    }
+  }
 
   // tests
   console.log(values.baseAR);
   console.log(values.splitAR);
+  // console.log(values.guardBoost);
   console.log(values.scaling);
+  console.log(values.upgrades);
 }
